@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Movies{% endblock %}
+
+{% block content %}
+<div class="content d-flex flex-column justify-content-center p-5">
+  {% if movie_to_update%}
+    <h1>{{ movie_to_update.title }}</h1>
+    <p class="mt-2">Edit movie rating</p>
+
+    <form method="POST" action="{{ url_for('edit', movie_id=movie_to_update.id) }}" novalidate>
+        {{ edit_form.csrf_token }}
+        <div class="form-group mt-2">
+            {{ edit_form.rate.label }} {{ edit_form.rate(class_="form-control", size=20) }}
+            {% for err in edit_form.rate.errors %}
+            <span style="color: red;">{{ err }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group mt-2">
+            {{ edit_form.review.label }} {{ edit_form.review(class_="form-control", size=20) }}
+            {% for err in edit_form.review.errors %}
+            <span style="color: red;">{{ err }}</span>
+            {% endfor %}
+        </div>
+        <div class="form-group mt-2">
+            {{ edit_form.submit(class_="btn btn-primary") }}
+        </div>
+    </form>
+    <a href="{{ url_for('home') }}" class="mt-3">Come back</a>
+    {% if message %}
+        <p class="mt-2">{{ message }}</p>
+    {% endif %}
+
+  {% endif %}
+  </div>
+{% endblock %}
